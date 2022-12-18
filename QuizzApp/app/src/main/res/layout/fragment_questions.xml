@@ -84,7 +84,7 @@
             android:text="3" />
 
         <RadioButton
-            android:id="@+id/foursRB"
+            android:id="@+id/fourthRB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="4" />
