@@ -1,6 +1,8 @@
 package com.example.quizzapp.model
 
-class Repo {
+import javax.inject.Inject
+
+class Repo @Inject constructor() {
     val data = arrayListOf(
         " Какая самая редкая группа крови?",
         " Кто из этих персонажей не входит в группу друзей из сериала \"Друзья\"?",
@@ -13,5 +15,5 @@ class Repo {
         arrayListOf("206", "205", "201", "209"), //1
         arrayListOf("Цинк", "Водород", "Фтор", "Железо") //4
     )
-    val anserwsId = arrayListOf(3,2,0,3)
+    val anserwsId = arrayListOf(4,3,1,4)
 }

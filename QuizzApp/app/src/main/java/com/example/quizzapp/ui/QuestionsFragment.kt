@@ -5,27 +5,29 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.quizzapp.R
 import com.example.quizzapp.databinding.FragmentQuestionsBinding
 import com.example.quizzapp.viewModels.QuizViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class QuestionsFragment : Fragment() {
     private var _binding: FragmentQuestionsBinding? = null
     private val binding get() = _binding!!
-    lateinit var viewModel: QuizViewModel
+
+    private val viewModel: QuizViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = (activity as MainActivity).viewModel
         _binding = FragmentQuestionsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -43,7 +45,6 @@ class QuestionsFragment : Fragment() {
 
         }
         binding.allTextView.text = viewModel.getQuiestionsAmount().toString()
-        viewModel.loadCurrentQuestion()
         binding.radios.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.firstRB -> {
@@ -64,10 +65,12 @@ class QuestionsFragment : Fragment() {
 
     private fun setupObservers() {
         viewModel.currentQuestionsId.observe(viewLifecycleOwner) { questionNumber ->
+            viewModel.loadCurrentQuestion()
             binding.prevButton.isEnabled = questionNumber != 0
             if (questionNumber == viewModel.getQuiestionsAmount() - 1) {
                 binding.nextButton.text = "Finish"
                 binding.nextButton.setOnClickListener {
+                     viewModel.saveUserAnswers()
                     findNavController().navigate(R.id.action_questionsFragment_to_quizResultFragment)
                 }
             } else {

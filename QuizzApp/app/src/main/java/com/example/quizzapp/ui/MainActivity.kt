@@ -3,22 +3,23 @@ package com.example.quizzapp.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.quizzapp.MyApplication
 import com.example.quizzapp.R
 import com.example.quizzapp.viewModels.QuizViewModel
 import com.example.quizzapp.viewModels.QuizViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    lateinit var viewModel: QuizViewModel
+    private val viewModel: QuizViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel =
-            ViewModelProvider(this, QuizViewModelFactory((application as MyApplication).repo)).get(
-                QuizViewModel::class.java
-            )
+
         setContentView(R.layout.activity_main)
         supportActionBar?.hide();
 
